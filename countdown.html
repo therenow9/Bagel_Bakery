@@ -1,0 +1,48 @@
+<script>
+    //DO NOT TOUCH THIS SCRIPT TAG ^
+    var time_ready = "19:17:10"
+    // Set the time in MILITARY TIME, also do NOT touch any other lines of this code
+    //make sure not to remove the quotations marks either
+
+    //DO NOT TOUCH ANYTHING BELOW THIS LINE!
+</script>
+
+<!-- Display the countdown timer in an element -->
+<style>
+    #countdown {
+        text-align: center;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        font-size: 3rem;
+    }
+</style>
+<!-- Display the countdown timer in an element -->
+<p id="countdown"></p>
+
+<script>
+    var countDownDate = new Date("Jan 5, 3000 " + time_ready).getTime();
+
+    // Update the count down every 1 second
+    var x = setInterval(function () {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+
+        // Time calc
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML = hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+        // If the count down is finished, alert that its bagel time!
+        if ((hours == 0) && (minutes == 0) && (seconds == 0)) {
+            clearInterval(x);
+            document.getElementById("countdown").innerHTML = "Fresh Bagels Are Ready!";
+        }
+    }, 1000);
+</script>
