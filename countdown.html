@@ -1,15 +1,7 @@
-<script>
-    //DO NOT TOUCH THIS SCRIPT TAG ^
-    var time_ready = "19:17:10"
-    // Set the time in MILITARY TIME, also do NOT touch any other lines of this code
-    //make sure not to remove the quotations marks either
-
-    //DO NOT TOUCH ANYTHING BELOW THIS LINE!
-</script>
-
 <!-- Display the countdown timer in an element -->
 <style>
-    #countdown {
+    #countdown,
+    #time {
         text-align: center;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         font-size: 3rem;
@@ -17,32 +9,72 @@
 </style>
 <!-- Display the countdown timer in an element -->
 <p id="countdown"></p>
-
 <script>
-    var countDownDate = new Date("Jan 5, 3000 " + time_ready).getTime();
-
-    // Update the count down every 1 second
-    var x = setInterval(function () {
-
+    function display_timer() {
+        var today = new Date();
+        var day_week = today.getDay();
+        var hours_time = today.getHours() < 10 ? "0" + today.getHours() : today.getHours();
+        var minutes_time =
+            today.getMinutes() < 10 ? "0" + today.getMinutes() : today.getMinutes();
+        var seconds_time =
+            today.getSeconds() < 10 ? "0" + today.getSeconds() : today.getSeconds();
+        var time_ready = "6:00:00";
+        var countDownDate = new Date("Jan 5, 3000 " + time_ready).getTime();
+        //Testing
         // Get today's date and time
         var now = new Date().getTime();
-
         // Find the distance between now and the count down date
         var distance = countDownDate - now;
-
         // Time calc
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) - 1;
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+        // Update the count down every 1 second
+        time_ready = "shift";
+        // set time_ready to shift by default
+        if ((day_week >= 1) && (day_week <= 4)) {
+            // if its Mon-Thurs
+            time_ready = "06:00:00";
+            if ((hours_time >= 6) && (hours_time < 15)) {
+                // if its past 6am and before 3pm display that fresh bagels are ready the whole shift
+                time_ready = "shift";
+            }
+        }
+        if ((day_week == 0) || (day_week >= 5)) {
+            // if its Fri-Sun
+            time_ready = "06:00:00";
+            if ((hours_time >= 6) && (hours_time < 8)) {
+                // if its past 6am and before 8am display that fresh bagels are ready for those couple hours
+                time_ready = "shift";
+            }
+            if ((hours_time >= 8) && (hours_time < 10)) {
+                // if its past between 8am and 10am do a 2 hour countdown
+                time_ready = "10:00:00";
+            }
+            if ((hours_time >= 10) && (hours_time < 12)) {
+                // if its between 10am and 12pm display that fresh bagels are ready for those couple hours
+                time_ready = "shift";
+            }
+            if ((hours_time >= 12) && (hours_time < 13)) {
+                // if its in between 12 and 1pm do a 1 hour countdown
+                time_ready = "13:00:00";
+            }
+            if ((hours_time >= 13) && (hours_time < 15)) {
+                // if its between 1pm and 3pm display that fresh bagels are ready for those last couple hours
+                time_ready = "shift";
+            }
+        }
         document.getElementById("countdown").innerHTML = hours + "h "
             + minutes + "m " + seconds + "s ";
-
-        // If the count down is finished, alert that its bagel time!
-        if ((hours == 0) && (minutes == 0) && (seconds == 0)) {
-            clearInterval(x);
+        //display countdown
+        if (((hours == 0) && (minutes == 0) && (seconds == 0)) || (time_ready == "shift")) {
+            // if the countdown is done or its in between bagel batches display that fresh bagels are ready
             document.getElementById("countdown").innerHTML = "Fresh Bagels Are Ready!";
         }
-    }, 1000);
+    }
+    display_timer();
+    //initial time display
+    setInterval(display_timer, 1000);
+// ensure that it all updates every second
 </script>
